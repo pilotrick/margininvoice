@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="invoice_margin_account_move">
+        <field name="name">account.move.margin.view.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_total']" position="after">
+                <label for="margin" groups="base.group_user"/>
+                <div class="text-nowrap" groups="base.group_user">
+                    <field name="margin" class="oe_inline"/>
+                    <span class="oe_inline" attrs="{'invisible': [('amount_untaxed', '=', 0)]}">
+                        (<field name="margin_percent" nolabel="1" class="oe_inline" widget="percentage"/>)
+                    </span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="invoice_margin_account_move_line">
+        <field name="name">account.move.line.margin.view.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_line_ids']/form//field[@name='price_unit']" position="after">
+                <field name="purchase_price" groups="base.group_user"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="account_move_margin_account_move_line_form">
+        <field name="name">account.move.line.tree.margin.view.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+           <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']" position="after">
+                <field name="purchase_price"/>
+                <field name="margin"/>
+                <field name="margin_percent"
+                    attrs="{'invisible': [('price_subtotal', '=', 0)]}"
+                     widget="percentage"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- <record model="ir.ui.view" id="sale_marg_sale_order_pivot">
+        <field name="name">sale.order.margin.view.pivot</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sale_order_pivot"/>
+        <field name="arch" type="xml">
+            <pivot position="inside">
+                <field name="margin_percent" invisible="1"/>
+            </pivot>
+        </field>
+    </record> -->
+
+</odoo>
